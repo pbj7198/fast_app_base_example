@@ -1,6 +1,9 @@
+import 'package:after_layout/after_layout.dart';
+import 'package:fast_app_base/common/dart/extension/num_duration_extension.dart';
 import 'package:fast_app_base/screen/main/tab/tab_item.dart';
 import 'package:fast_app_base/screen/main/tab/tab_navigator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import '../../common/common.dart';
 import 'w_menu_drawer.dart';
@@ -12,7 +15,7 @@ class MainScreen extends StatefulWidget {
   State<MainScreen> createState() => MainScreenState();
 }
 
-class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMixin {
+class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMixin, AfterLayoutMixin {
   TabItem _currentTab = TabItem.home;
   final tabs = [
     TabItem.home,
@@ -30,6 +33,8 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
   bool get extendBody => true;
 
   static double get bottomNavigationBarBorderRadius => 30.0;
+
+  static const double bottomNavigatorHeight = 50;
 
   @override
   void initState() {
@@ -159,5 +164,12 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
     for (final _ in tabs) {
       navigatorKeys.add(GlobalKey<NavigatorState>());
     }
+  }
+
+  @override
+  FutureOr<void> afterFirstLayout(BuildContext context) {
+    delay(() {
+      FlutterNativeSplash.remove();
+    }, 1500.ms);
   }
 }

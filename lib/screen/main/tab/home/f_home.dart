@@ -1,11 +1,18 @@
+import 'package:fast_app_base/common/cli_common.dart';
 import 'package:fast_app_base/common/common.dart';
 import 'package:fast_app_base/common/widget/round_button_theme.dart';
+import 'package:fast_app_base/common/widget/w_bank_account.dart';
+import 'package:fast_app_base/common/widget/w_big_button.dart';
 import 'package:fast_app_base/common/widget/w_round_button.dart';
+import 'package:fast_app_base/common/widget/w_rounded_container.dart';
 import 'package:fast_app_base/screen/dialog/d_message.dart';
+import 'package:fast_app_base/screen/main/s_main.dart';
 import 'package:flutter/material.dart';
 
 import '../../../dialog/d_color_bottom.dart';
 import '../../../dialog/d_confirm.dart';
+import 'bank_accounts_dummy.dart';
+import 'w_ttoss_app_bar.dart';
 
 class HomeFragment extends StatelessWidget {
   const HomeFragment({
@@ -15,47 +22,42 @@ class HomeFragment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: context.appColors.seedColor.getMaterialColorValues[100],
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            children: [
-              IconButton(
-                onPressed: () => openDrawer(context),
-                icon: const Icon(Icons.menu),
-              )
-            ],
-          ),
-          const EmptyExpanded(),
-          RoundButton(
-            text: 'Snackbar 보이기',
-            onTap: () => showSnackbar(context),
-            theme: RoundButtonTheme.blue,
-          ),
-          const Height(20),
-          RoundButton(
-            text: 'Confirm 다이얼로그',
-            onTap: () => showConfirmDialog(context),
-            theme: RoundButtonTheme.whiteWithBlueBorder,
-          ),
-          const Height(20),
-          RoundButton(
-            text: 'Message 다이얼로그',
-            onTap: showMessageDialog,
-            theme: RoundButtonTheme.whiteWithBlueBorder,
-          ),
-          const Height(20),
-          RoundButton(
-            text: '메뉴 보기',
-            onTap: () => openDrawer(context),
-            theme: RoundButtonTheme.blink,
-          ),
-          const EmptyExpanded()
-        ],
-      ),
-    );
+        color: Colors.black,
+        child: Stack(
+          children: [
+            RefreshIndicator(
+              edgeOffset: TtossAppBar.appBarHeight,
+              onRefresh: () async{
+                await sleepAsync(500.ms);
+              },
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.only(top: TtossAppBar.appBarHeight, bottom:MainScreenState.bottomNavigatorHeight),
+                child: Column(
+                  children: [
+                    BigButton(
+                      '토스뱅크',
+                      onTap: () {
+                        context.showSnackbar("토스뱅크를 눌렀어요.");
+                      },
+                    ),
+                    height10,
+                    RoundedContainer(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          '자산'.text.bold.white.make(),
+                          height5,
+                          ...bankAccounts.map((e) => BankAccountWidget(e))
+                        ],
+                      ),
+                    )
+                  ],
+                ).pSymmetric(h: 20),
+              ),
+            ),
+            TtossAppBar(),
+          ],
+        ));
   }
 
   void showSnackbar(BuildContext context) {
@@ -64,7 +66,13 @@ class HomeFragment extends StatelessWidget {
           onTap: () {
             context.showErrorSnackbar('error');
           },
-          child: '에러 보여주기 버튼'.text.white.size(13).make().centered().pSymmetric(h: 10, v: 5),
+          child: '에러 보여주기 버튼'
+              .text
+              .white
+              .size(13)
+              .make()
+              .centered()
+              .pSymmetric(h: 10, v: 5),
         ));
   }
 

@@ -7,9 +7,9 @@ final bankAccountShinhan2 =
     BankAccount(bankShinhan, 30000000, accountTypeName: '저축예금');
 final bankAccountShinhan3 =
     BankAccount(bankShinhan, 300000000, accountTypeName: '저축예금');
-final bankAccountToss = BankAccount(bankShinhan, 5000000);
+final bankAccountToss = BankAccount(bankTtoss, 5000000);
 final bankAccountKakao =
-    BankAccount(bankShinhan, 7000000, accountTypeName: '입출금통장');
+    BankAccount(bankKakao, 7000000, accountTypeName: '입출금통장');
 
 main(){
   print(bankAccounts[0].accountTypeName);
@@ -17,6 +17,12 @@ main(){
 
 // List
 final bankAccounts = [
+  bankAccountShinhan1,
+  bankAccountShinhan1,
+  bankAccountShinhan1,
+  bankAccountShinhan1,
+  bankAccountShinhan1,
+  bankAccountShinhan1,
   bankAccountShinhan1,
   bankAccountShinhan2,
   bankAccountShinhan3,
